@@ -118,28 +118,39 @@ const Checkout = () => {
     }
   };
 
-  const handlePayment = async () => {
-    // Kirim permintaan untuk mendapatkan QR code
-    const response = await fetch('/v2/charge', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Basic ${btoa('Mid-server-mUkZRBPJf847PKCmkwQgSnX4' + ':')}`
-      },
-      body: JSON.stringify({
-        payment_type: 'qris',
-        transaction_details: {
-          order_id: `order-${Date.now()}`,
-          gross_amount: finalTotal
-        }
-      })
+  const mockPayment = async () => {
+    // Simulasi delay untuk meniru permintaan jaringan
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          status_code: '201',
+          actions: [
+            {
+              url: 'https://qris.id/api-doc/assets/img/MPM_QRIS_Dasar.jpg' // Ganti dengan URL QRIS yang sesuai
+            }
+          ]
+        });
+      }, 1000); // Simulasi delay 1 detik
     });
-
-    const data = await response.json();
-    if (data.status_code === '201') {
-      setQrisImage(data.actions[0].url); // Ambil URL QRIS dari respons
-    } else {
-      console.error("Error creating QRIS payment:", data);
+  };
+  
+  const handlePayment = async () => {
+    // Validasi input
+    if (!contact || !country || !firstName || !lastName || !address || !selectedProvince || !selectedCity || !postalCode) {
+      alert("Silakan lengkapi semua informasi yang diperlukan.");
+      return;
+    }
+  
+    try {
+      const data = await mockPayment();
+  
+      if (data.status_code === '201') {
+        setQrisImage(data.actions[0].url);
+      } else {
+        console.error("Error creating QRIS payment:", data);
+      }
+    } catch (error) {
+      console.error("Error during payment process:", error);
     }
   };
 
