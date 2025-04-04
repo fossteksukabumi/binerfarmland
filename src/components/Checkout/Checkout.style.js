@@ -11,7 +11,7 @@ export const CheckoutContainer = styled.div`
   gap: 30px;
   
   @media (max-width: 768px) {
-    flex-direction: column-reverse;
+    flex-direction: column;
   }
 `;
 
@@ -269,7 +269,7 @@ export const ProductName = styled.p`
 export const ProductPrice = styled.p`
   font-size: 16px;
   font-weight: 600;
-  color: #4a90e2;
+  color:rgb(76, 182, 50);
   margin: 0;
 `;
 
@@ -277,7 +277,7 @@ export const ProductPrice = styled.p`
 export const CheckoutButton = styled.button`
   width: 100%;
   padding: 15px;
-  background-color: #4a90e2;
+  background-color:rgb(76, 182, 50);
   color: white;
   border: none;
   border-radius: 8px;
